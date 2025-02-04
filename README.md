@@ -44,8 +44,8 @@ git config --global user.email "your_email@example.com"
 ### 5️⃣ Clone the Repository 📂
 Clone the repository containing the Terraform configurations:
 ```bash
-git clone https://github.com/YogitaBadhe/aws-terraform-webserver ☁️
-cd aws-terraform-webserver ☁️
+git clone https://github.com/YogitaBadhe/AWS-Terraform-Webserver.git
+cd AWS-Terraform-Webserver
 ```
 Alternatively, create the project files manually using PowerShell:
 ```powershell
