@@ -100,13 +100,6 @@ git add .
 git commit -m "Initial commit"
 git push origin main
 ```
-For private repositories, use your GitHub token:
-```bash
-git push https://token@github.com/username/terraform-webserver.git
-```
 
----
-
-🎉 **Congratulations!** You've successfully deployed and configured a webserver on AWS using Terraform! 🚀
 
 
