@@ -1,0 +1,1 @@
+"echo Welcome to Webserver ${self.public_dns} | sudo tee /var/www/html/index.html" 
