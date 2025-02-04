@@ -1,105 +1,192 @@
-# 🚀 Launch and Configure a Webserver using Terraform
+# 🚀 AWS Terraform Webserver - Step-by-Step Guide
 
-This guide provides a step-by-step approach to launching, connecting to, and configuring a webserver on AWS using Terraform. You'll learn how to configure Terraform, manage AWS resources, and ensure a successful deployment.
-
----
-
-## ✅ Prerequisites
-Before getting started, ensure you have the following installed and configured:
-
-- 🛠 **Terraform** - Installed and configured.
-- ☁️ **AWS CLI** - Installed and configured with your access and secret keys using:
-  ```bash
-  aws configure
-  ```
-- 🔧 **Git** - Installed to manage your Terraform code repository.
+Welcome to the **AWS Terraform Webserver** setup guide! This document will guide you through the entire process of setting up an AWS EC2 instance as a web server using **Terraform**. 🌐💻
 
 ---
 
-## 📌 Step-by-Step Guide
+## 📌 Prerequisites
+Before proceeding, ensure you have the following:
+- **AWS Account** ✅
+- **IAM User with Administrator Access** ✅
+- **Amazon Linux 2 EC2 Instance** ✅
+- **Terraform Installed** ✅
+- **Git Installed** ✅
 
-### 1️⃣ Launch EC2 Instance 🏗️
-Begin by launching an EC2 instance via the AWS Management Console or using a predefined Terraform configuration.
+---
 
-### 2️⃣ Connect to EC2 Instance 🔗
-Connect to your EC2 instance securely via SSH using the appropriate key pair.
+## 📖 Step 1: Update and Install Required Packages
+First, update your Amazon Linux system and install Git:
 
-### 3️⃣ Install Terraform and Dependencies 🌍
-If Terraform is not already installed, follow the installation steps. Also, ensure that AWS CLI is properly set up:
-```bash
-# Install Terraform (if not installed)
-# Configure AWS CLI
-aws configure
-```
-
-### 4️⃣ Install Git 🛠️
-Install Git on your EC2 instance to manage your Terraform configuration files:
-```bash
+```sh
+sudo yum update -y
 sudo yum install git -y
-git --version
-git config --global user.name "your_username"
-git config --global user.email "your_email@example.com"
 ```
 
-### 5️⃣ Clone the Repository 📂
-Clone the repository containing the Terraform configurations:
-```bash
-git clone https://github.com/YogitaBadhe/AWS-Terraform-Webserver.git
-cd AWS-Terraform-Webserver
+Verify Git installation:
+```sh
+git --version
 ```
-Alternatively, create the project files manually using PowerShell:
-```powershell
-mkdir terraformproject
-cd .\terraformproject\
-New-Item main.tf
-New-Item variables.tf
-code .
+
+Configure Git with your details:
+```sh
+git config --global user.name "YogitaBadhe"
+git config --global user.email "ybadhe0990@gmail.com"
+git config --list
+```
+
+---
+
+## 📖 Step 2: Install and Configure Apache Web Server
+
+```sh
+sudo yum install httpd -y
+sudo systemctl start httpd
+sudo systemctl enable httpd
+sudo systemctl status httpd
+```
+
+Your webserver is now running! 🚀
+
+---
+
+## 📖 Step 3: Clone the AWS Terraform Webserver Repository
+
+Clone the GitHub repository:
+```sh
+git clone https://github.com/YogitaBadhe/AWS-Terraform-Webserver.git
+ls
+cd AWS-Terraform-Webserver/
+```
+
+---
+
+## 📖 Step 4: Setup Project Directory Structure
+
+Install the `tree` command to visualize the directory structure:
+```sh
+sudo yum install tree -y
+tree
+```
+
+Create directories and navigate into them:
+```sh
 mkdir aws
 cd aws
 mkdir aws_keys
-cd .\aws_keys\
+cd aws_keys
 ```
 
-### 6️⃣ Create a Key Pair 🔑
-Create an AWS key pair named `mywebserver.pem` through the AWS Management Console. Save it in the `aws/aws_keys/` directory and set proper permissions:
-```bash
-chmod 400 aws/aws_keys/mywebserver.pem
+Create and open the **TerraformWebserver.pem** file to store the AWS key credentials:
+```sh
+sudo touch TerraformWebserver.pem
+sudo nano TerraformWebserver.pem  # Paste your .pem key credentials here
 ```
 
-### 7️⃣ Update Terraform Configuration 📜
-Modify the `main.tf` file to include:
-- AWS region settings.
-- VPC ID, Subnet ID, and AMI ID.
-- Key pair name for SSH access.
+Create Terraform configuration files:
+```sh
+sudo touch variable.tf
+sudo nano variable.tf  # Paste your variables here
 
-Also, update `variables.tf` to include the key pair name.
+sudo touch main.tf
+sudo nano main.tf  # Paste your Terraform script here
+```
 
-### 8️⃣ Initialize and Apply Terraform Configuration ⚙️
-Run the following Terraform commands to deploy your resources:
-```bash
+---
+
+## 📖 Step 5: Configure AWS CLI
+
+Run the following command to set up AWS credentials:
+```sh
+aws configure
+```
+Provide the necessary details:
+```
+Access Key: YOUR_ACCESS_KEY
+Secret Access Key: YOUR_SECRET_ACCESS_KEY
+Region Code: us-east-1
+Output Format: json
+```
+Verify AWS CLI installation:
+```sh
+aws --version
+```
+
+---
+
+## 📖 Step 6: Setup Web Server Files
+
+Navigate to the webserver directory:
+```sh
+cd /var/www/html
+pwd
+ls
+```
+
+Create and edit the **index.html** file:
+```sh
+sudo nano index.html  # Add your website content here
+sudo touch index.html
+ls
+```
+
+---
+
+## 📖 Step 7: Install Terraform on Amazon Linux 2
+
+Run the following commands to install Terraform:
+```sh
+sudo yum install -y yum-utils shadow-utils
+sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+sudo yum -y install terraform
+terraform --version
+```
+
+---
+
+## 📖 Step 8: Terraform Workflow
+
+### 🛠 Initialize Terraform
+```sh
 terraform init
+```
+
+### ✅ Validate Configuration
+```sh
 terraform validate
+```
+
+### 🎨 Format Configuration
+```sh
 terraform fmt
+```
+
+### 🔍 Plan Infrastructure
+```sh
 terraform plan
-terraform apply
 ```
 
-### 9️⃣ Verify Deployment 🔍
-Once Terraform completes the deployment, retrieve the public IP address of the instance and verify the webserver by accessing it via a web browser.
-
-### 🔟 Clean Up 🗑️
-To remove all deployed resources, run:
-```bash
-terraform destroy
+### 🚀 Apply Configuration (Deploy Resources)
+```sh
+terraform apply -auto-approve
 ```
 
-### 1️⃣1️⃣ Commit and Push Code 💾
-Save your changes and push them to a GitHub repository:
-```bash
+### 💥 Destroy Resources (Clean Up)
+```sh
+terraform destroy -auto-approve
+```
+
+---
+
+## 📖 Step 9: Push Changes to GitHub
+
+```sh
 git add .
-git commit -m "Initial commit"
+git commit -m "Updated the changes"
 git push origin main
 ```
 
+---
 
+## 🎯 Conclusion
+Congratulations! 🎉 You have successfully set up an **AWS Terraform Webserver** using Terraform and Git. Happy coding! 🚀
 
